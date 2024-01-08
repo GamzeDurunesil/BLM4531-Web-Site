@@ -1,0 +1,206 @@
+<!-- favoriler.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Favoriler</title>
+    <!-- Include your CSS file for styling -->
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ms+Madi">
+
+    <style>
+    
+    #favorites-container {
+        text-align:center;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    grid-gap:40px;
+    width:80%;
+    margin:10px auto;
+    padding:20px;
+    place-items:center;
+    }
+    
+    .heart-icon {
+            position: absolute;
+            bottom: 1px;
+            margin-left: 90%;
+            cursor: pointer;
+            width: 20px; /* Adjust the width of the heart icon */
+            height: 20px; 
+        }
+    </style>
+
+
+
+
+</head>
+
+
+
+<body>
+    <header class="header">
+        
+        
+        
+            
+            
+        <a class="logo" href="Anasayfa.html">
+            <img src="images/logo.jpg" alt="chef" width="100px" height="100px" >
+        </a>
+        
+        <a class="navbar-brand" href="Anasayfa.html">Chef'Special</a>
+        
+        <nav class="navbar">
+            <a href="Anasayfa.html">Anasayfa</a>
+            
+        </nav>
+        <nav class="navbar">
+            <a href="favoriler.html">Favoriler</a>
+            
+        </nav>
+        <div class="container">
+            <form action="" class="search-bar">
+                <input type="text" class="searchBox" placeholder="Search"  id="inputName" autocomplete="off" name="q" />
+               
+                <button class="searchBtn" type="submit" id="searchbutton" style="font-size:24px;">
+
+                    <img src="images/search.png" ><img />
+                </button>
+             </form>
+             
+         
+        </div>
+        <button class="addrecipe" id="addrecipe" onclick="tarifekle()">Tarif Ekle</button>&nbsp;&nbsp;
+        <button class="profilnav" id="profilnav" onclick="tarifler()">Tariflerim</button>&nbsp;&nbsp;
+        <button class="Loginbtnnav" id="signoutbutton">Logout</button>
+        
+        
+        
+        
+        
+    
+
+</header>
+<main>
+
+    <div class="recipe-container">
+
+        
+
+    </div>
+    
+    <div class="recipe-details">
+        <button type="button" class="recipe-close-btn">
+            <i class="material-icons">close</i>
+        </button>
+        <div class="recipe-details-content"></div>
+    </div>
+    <div id="favorites-container"></div>
+</main>
+
+
+<script>
+    // Function to display links for favorite meals with images and names
+    async function displayFavoriteMeals(favoriteMeals) {
+        const favoritesContainer = document.getElementById('favorites-container');
+
+        for (const mealName of favoriteMeals) {
+            try {
+                const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`);
+                const data = await response.json();
+
+                const meal = data.meals[0];
+
+                const mealContainer = document.createElement('div');
+                mealContainer.className = 'catinrecipe';
+
+                const mealImage = document.createElement('img');
+                mealImage.src = meal.strMealThumb;
+                mealImage.alt = meal.strMeal;
+                mealImage.onclick = function() {
+                    redirectToDetails(mealName);
+                };
+
+                const heartIcon = document.createElement('img');
+                    heartIcon.src = 'images/heart.png'; // Replace with your heart image path
+                    heartIcon.alt = 'favorite';
+                    heartIcon.className = 'heart-icon';
+                    heartIcon.onclick = function(event) {
+                        event.stopPropagation(); // Prevent the image click event from triggering
+                        removeFavorite(mealName);
+                        mealContainer.remove();
+                    };
+
+                const mealNameElement = document.createElement('h3');
+                mealNameElement.innerText = mealName;
+
+                mealContainer.appendChild(mealImage);
+                mealContainer.appendChild(heartIcon);
+                mealContainer.appendChild(mealNameElement);
+
+                favoritesContainer.appendChild(mealContainer);
+            } catch (error) {
+                console.error(`Error fetching details for ${mealName}:`, error);
+            }
+        }
+    }
+
+    // Get favoriteMeals from localStorage or initialize an empty array
+    let favoriteMeals = JSON.parse(localStorage.getItem('favoriteMeals')) || [];
+
+    // Display favorite meals on page load
+    displayFavoriteMeals(favoriteMeals);
+
+    // Function to redirect to details page
+    function redirectToDetails(mealName) {
+        window.location.href = `details.html?meal=${encodeURIComponent(mealName)}`;
+    }
+
+    // Function to remove a meal from favorites
+    function removeFavorite(mealName) {
+        favoriteMeals = favoriteMeals.filter(meal => meal !== mealName);
+        localStorage.setItem('favoriteMeals', JSON.stringify(favoriteMeals));
+        console.log('Favorite Meals:', favoriteMeals);
+    }
+</script>
+
+
+<script>
+    let SignoutBtn= document.getElementById('signoutbutton');
+    
+    let Signout=()=>{
+        window.location.assign("Home.html");
+    }
+    SignoutBtn.addEventListener('click',Signout);
+
+
+   </script>
+
+<script>
+    let addrecipeBtn= document.getElementById('addrecipe');
+    
+    let tarifekle=()=>{
+        window.location.assign("Addrecipe.html");
+    }
+    
+
+
+   </script>
+   <script>
+    let profilnavBtn= document.getElementById('profilnav');
+    
+    let tarifler=()=>{
+        window.location.assign("Recipes.html");
+    }
+    
+
+
+   </script>
+
+   
+<script src="js/favorites.js" ></script>
+</body>
+</html>

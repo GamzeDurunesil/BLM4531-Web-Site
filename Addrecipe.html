@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chef'Special'</title>
+
+    <link rel="stylesheet" href="css/site.css" />
+    <link rel="stylesheet" href="css/addrecipe.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ms+Madi">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+
+</head>
+
+<body >
+  
+    <header class="header">
+        
+        
+        
+            
+            
+                <a class="logo" href="Anasayfa.html">
+                    <img src="images/logo.jpg" alt="chef" width="100px" height="100px" >
+                </a>
+                
+                <a class="navbar-brand" href="Anasayfa.html">Chef'Special</a>
+                
+                <nav class="navbar">
+                    <a href="Anasayfa.html">Anasayfa</a>
+                    
+                </nav>
+                <nav class="navbar">
+                    <a href="favoriler.html">Favoriler</a>
+                    
+                </nav>
+                <div class="container">
+                    <form action="" class="search-bar">
+                        <input type="text" class="searchBox" placeholder="Search"  id="inputName" autocomplete="off" name="q" />
+                       
+                        <button class="searchBtn" type="submit" id="searchbutton" style="font-size:24px;">
+
+                            <img src="images/search.png" ><img />
+                        </button>
+                     </form>
+                     
+                 
+                </div>
+                <button class="addrecipe">Tarif Ekle</button>&nbsp;&nbsp;
+                <button class="profilnav" id="profilnav" onclick="tarifler()">Tariflerim</button>&nbsp;&nbsp;
+                <button class="Loginbtnnav" id="signoutbutton">Logout</button>
+                
+                
+                
+                
+                
+            
+        
+    </header>
+
+    <main>
+        
+
+
+        
+        <section>
+
+            <div class="recipe-container">
+
+                
+
+            </div>
+            <div class="recipe-details">
+                <button type="button" class="recipe-close-btn">
+                    <i class="material-icons">close</i>
+                </button>
+                <div class="recipe-details-content"></div>
+            </div>
+        </section>
+    </main>
+
+    <form class="add" >
+        
+        <img id="addimg" src="images/empty.jpg"><br>
+       <input type="text" id="namebox" name="namebox"> <label id="extlab"></label>
+        <button id="selbtn">
+            <span class="material-symbols-outlined">
+                add_photo_alternate
+                </span>
+        </button>
+        <div class="tarifekle">
+        <label for="name"  >Tarif Adı:</label>
+    
+        <input  type="text" class="ad" name="name" required>
+        </div>
+        <div class="tarifekle">
+        <label  for="ingredients" >İçindekiler:</label>
+   
+        <textarea type="text" name="ingredients" class="ing" required></textarea>
+        </div>
+        <div class="tarifekle">
+        <label for="description">Yapılışı:</label><br>
+        
+        <textarea class="desc" type="text" name="description" required></textarea>
+
+    </div>
+
+        <button type="submit" class="eklebuton" id="eklebuton">Ekle</button>
+
+
+
+
+    </form>
+    
+    
+    
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection,onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getStorage, ref as sRef, uploadBytesResumable,getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+    apiKey: "AIzaSyDEHb_89d9oA6HaG7VFkkctX_1g48I7cqo",
+    authDomain: "webappdeneme-7fe6f.firebaseapp.com",
+    projectId: "webappdeneme-7fe6f",
+    storageBucket: "webappdeneme-7fe6f.appspot.com",
+    messagingSenderId: "1054013815162",
+    appId: "1:1054013815162:web:6278a5eb7fb3b5e3f0bec3"
+  };
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        //make auth and firestore references
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const colRef=collection(db,'Recipe');
+        
+   
+
+        //storage sectionn
+        var files = [];
+        var reader = new FileReader();
+
+        var namebox = document.getElementById('namebox');
+        var extlab = document.getElementById('extlab');
+        var myimg = document.getElementById('addimg');
+        var SelBtn = document.getElementById('selbtn');
+        var eklebuton = document.getElementById('eklebuton');
+
+        var input = document.createElement('input');
+        input.type='file';
+
+        input.onchange = e =>{
+            files = e.target.files;
+            var yol=GetFileName(files[0]);
+            var extention = GetFileExt(files[0]);
+            var name = UploadProcess();
+
+            namebox.value=name;
+
+            extlab.innerHTML = extention;
+
+            reader.readAsDataURL(files[0]);
+        }
+
+        reader.onload = function(){
+            myimg.src = reader.result;
+        }
+
+        //selection
+
+        SelBtn.onclick =function(){
+            input.click();
+        }
+
+        function GetFileExt(file){
+
+            var temp = file.name.split('.');
+            var ext = temp.slice((temp.length-1),(temp.length));
+
+            return '.' +ext[0];
+        }
+
+        function GetFileName(file){
+
+            var temp = file.name.split('.');
+            var fname = temp.slice(0,-1).join('.');
+            return fname;
+        }
+
+        //upload img to storage
+        var urlimage;
+        async function UploadProcess(){
+            
+            var ImgToUpload = files[0];
+
+            var ImgName = GetFileName(files[0])+ extlab.innerHTML;
+
+            const metaData ={
+                contentType: ImgToUpload.type
+            }
+            const storage =  getStorage();
+            
+            const storageRef = sRef(storage,'Images/'+ImgName);
+                
+            
+            
+            const UploadTask = uploadBytesResumable(storageRef, ImgToUpload, metaData);
+
+            UploadTask.on('state-changed',(snapshot)=>{
+                var progess = (snapshot.bytesTransferred / snapshot.totalBytes)*100;
+                
+            },
+            (error)=>{
+                alert("error: image not uploaded");
+            },
+            ()=>{
+                getDownloadURL(UploadTask.snapshot.ref).then((downloadURL)=>{
+                    namebox.value=downloadURL;
+                    
+                    
+                    
+                });
+            }
+            );
+            
+        }
+       eklebuton.onclick=UploadProcess; 
+
+       //firestora resmi ekleme
+
+       onSnapshot(colRef,(snapshot)=>{
+    let recipes=[];
+    snapshot.docs.forEach(doc => {
+        recipes.push({ ...doc.data(), id:doc.id })
+    });
+    console.log(recipes)
+})
+
+
+//adding documents
+const addRecipeForm= document.querySelector('.add');
+addRecipeForm.addEventListener('submit',(e)=>{
+    e.preventDefault();
+
+    addDoc(colRef,{
+        image:addRecipeForm.namebox.value,
+        name: addRecipeForm.name.value ,
+        ingredients: addRecipeForm.ingredients.value ,
+        description: addRecipeForm.description.value,
+
+    })
+    .then(()=>{
+        addRecipeForm.reset();
+    })
+
+});
+
+
+
+//get collection data
+
+
+
+
+    </script>
+
+
+  
+    <script>
+        let profilnavBtn= document.getElementById('profilnav');
+        
+        let tarifler=()=>{
+            window.location.assign("Recipes.html");
+        }
+        
+
+
+   </script>
+  
+    
+  <script src="js/searchapi.js" asp-append-version="true"></script>
+    
+    
+
+ 
+   
+  
+</body>
+</html>

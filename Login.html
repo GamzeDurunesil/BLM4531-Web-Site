@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chef'Special'</title>
+
+    <link rel="stylesheet" href="css/site.css" />
+    <link rel="stylesheet" href="css/slider.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ms+Madi">
+    
+
+
+</head>
+
+<body >
+  
+    <header class="header">
+        
+        
+        
+            
+            
+                <a class="logo" href="Home.html">
+                    <img src="images/logo.jpg" alt="chef" width="100px" height="100px" >
+                </a>
+                
+                <a class="navbar-brand" href="Home.html">Chef'Special</a>
+                
+                <nav class="navbar">
+                    <a href="Home.html">Home</a>
+                    
+                </nav>
+                
+                <div class="container">
+                    <form action="" class="search-bar">
+                        <input type="text" class="searchBox" placeholder="Search"  id="inputName" autocomplete="off" name="q" />
+                       
+                        <button class="searchBtn" type="submit" id="searchbutton" style="font-size:24px;">
+
+                            <img src="images/search.png" ><img />
+                        </button>
+                     </form>
+                     
+                 
+                </div>
+                
+                
+                <button class="Loginbtnnav" >Login</button>
+                
+                
+                
+                
+                
+            
+        
+    </header>
+    
+    
+    
+    <main>
+        
+
+
+        
+        <section>
+
+            <div class="recipe-container">
+
+                <h2 style="font-size: 50px;">Search your favorite recipes <br><br> Signup For Add Recipes</h2>
+
+            </div>
+            <div class="recipe-details">
+                <button type="button" class="recipe-close-btn">
+                    <i class="material-icons">close</i>
+                </button>
+                <div class="recipe-details-content"></div>
+            </div>
+        </section>
+    </main>
+    <div class="wrapper">
+        
+        <div class="form-box login">
+            <h2>Login</h2>
+            <form id="login" action="#">
+                <div class="input-box">
+                    <span class="icon">
+                        <i class="material-icons">mail</i>
+                    </span>
+                    <input type="email" id="emailI" required />
+                    <label for="emailI">Email</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><i class="material-icons">lock</i></span>
+                    <input type="password" id="passwordI" required />
+                    <label for="passwordI">Password</label>
+                </div>
+                <button id="Loginbutton" type="submit" class="buttonlog" onclick="LoginUser">Login</button>
+                <div class="login-register">
+                    <p>Don't have an account?'<a href="#" class="register-link">Register</a></p>
+                </div>
+            </form>
+        </div>
+        <div class="form-box signup">
+            <h2>Sign-up</h2>
+            <form id="signup"  action="#" >
+                <div class="input-box">
+                    <span class="icon">
+                        <i class="material-icons">person</i>
+                    </span>
+                    <input type="text" id="name" required />
+                    <label for="name">Name</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon">
+                        <i class="material-icons">mail</i>
+                    </span>
+                    <input type="email" id="emailS" required />
+                    <label for="emailS" >Email</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><i class="material-icons">lock</i></span>
+                    <input type="password" id="passwordS" required />
+                    <label for="passwordS" >Password</label>
+                </div>
+                <button id="Signupbutton" type="submit" class="buttonlog" onclick="RegisterUser">Sign-up</button>
+                <div class="login-register">
+                    <p>Already have an account?'<a href="#" class="login-link">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+
+    <section class="footer"  style="background-color: #000000;" >
+        <div class="credit" style="color: #fff;">
+            -2023 - Chef'Special - Created By Gazme 
+        </div>
+    </section>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+    apiKey: "AIzaSyDEHb_89d9oA6HaG7VFkkctX_1g48I7cqo",
+    authDomain: "webappdeneme-7fe6f.firebaseapp.com",
+    projectId: "webappdeneme-7fe6f",
+    storageBucket: "webappdeneme-7fe6f.appspot.com",
+    messagingSenderId: "1054013815162",
+    appId: "1:1054013815162:web:6278a5eb7fb3b5e3f0bec3"
+  };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        //make auth and firestore references
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+
+
+        let EmailInp = document.getElementById('emailS');
+        let PassInp = document.getElementById('passwordS');
+        let EmailLog = document.getElementById('emailI');
+        let PassLog = document.getElementById('passwordI');
+        let Name = document.getElementById('name');
+        let Signup = document.getElementById('signup');
+        let Login = document.getElementById('login');
+
+        let RegisterUser = evt => {
+            evt.preventDefault();
+            createUserWithEmailAndPassword(auth, EmailInp.value, PassInp.value).then((credentials) => {
+                    console.log(credentials);
+                alert('succcess');
+                window.location.assign("Anasayfa.html");  
+            })
+                .catch((error) => {
+                    alert(error.message);
+                    console.log(error.code);
+                    console.log(error.message);
+                })
+
+        }
+        Signup.addEventListener('submit', RegisterUser);
+       
+        let LoginUser = evt => {
+            evt.preventDefault();
+            signInWithEmailAndPassword(auth, EmailLog.value, PassLog.value)
+                .then((credentials) => { 
+                    console.log(credentials);
+                    alert('success');
+                    window.location.assign("Anasayfa.html");
+              
+                    
+            })
+                .catch((error) => {
+                    alert(error.message);
+                    console.log(error.code);
+                    console.log(error.message);
+                })
+
+        }
+        Login.addEventListener('submit', LoginUser);
+
+
+
+    </script>
+
+   
+
+
+
+  
+    <script src="js/slideimages.js" asp-append-version></script>
+    <script src="js/searchapi.js" asp-append-version="true"></script>
+    <script src="js/site.js" asp-append-version="true"></script>
+   
+  
+</body>
+</html>

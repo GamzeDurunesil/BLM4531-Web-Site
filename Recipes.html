@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chef'Special'</title>
+
+    <link rel="stylesheet" href="css/site.css" />
+    <link rel="stylesheet" href="css/recipeshow.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ms+Madi">
+    
+
+
+</head>
+
+<body >
+  
+    <header class="header">
+        
+        
+        
+            
+            
+                <a class="logo" href="Anasayfa.html">
+                    <img src="images/logo.jpg" alt="chef" width="100px" height="100px" >
+                </a>
+                
+                <a class="navbar-brand" href="Anasayfa.html">Chef'Special</a>
+                
+                <nav class="navbar">
+                    <a href="Anasayfa.html">Anasayfa</a>
+                    
+                </nav>
+                <nav class="navbar">
+                    <a href="favoriler.html">Favoriler</a>
+                    
+                </nav>
+                <div class="container">
+                    <form action="" class="search-bar">
+                        <input type="text" class="searchBox" placeholder="Search"  id="inputName" autocomplete="off" name="q" />
+                       
+                        <button class="searchBtn" type="submit" id="searchbutton" style="font-size:24px;">
+
+                            <img src="images/search.png" ><img />
+                        </button>
+                     </form>
+                     
+                 
+                </div>
+                <button class="addrecipe" id="addrecipe" onclick="tarifekle()">Tarif Ekle</button>&nbsp;&nbsp;
+                <button class="profilnav" id="profilnav" >Tariflerim</button>&nbsp;&nbsp;
+                <button class="Loginbtnnav" id="signoutbutton">Logout</button>
+                
+                
+                
+                
+                
+            
+        
+    </header>
+
+    
+    <div class="ownrecipe-container">
+        
+        
+    </div>
+    
+
+  
+    <script>
+        let addrecipeBtn= document.getElementById('addrecipe');
+        
+        let tarifekle=()=>{
+            window.location.assign("Addrecipe.html");
+        }
+        
+    
+    
+       </script>
+       <script>
+        let SignoutBtn= document.getElementById('signoutbutton');
+        
+        let Signout=()=>{
+            window.location.assign("Home.html");
+        }
+        SignoutBtn.addEventListener('click',Signout);
+    
+    
+       </script>
+    
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        
+        import { getFirestore,collection,onSnapshot} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+    apiKey: "AIzaSyDEHb_89d9oA6HaG7VFkkctX_1g48I7cqo",
+    authDomain: "webappdeneme-7fe6f.firebaseapp.com",
+    projectId: "webappdeneme-7fe6f",
+    storageBucket: "webappdeneme-7fe6f.appspot.com",
+    messagingSenderId: "1054013815162",
+    appId: "1:1054013815162:web:6278a5eb7fb3b5e3f0bec3"
+  };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        //make auth and firestore references
+       
+        const db = getFirestore(app);
+
+        const ref=collection(db,'Recipe');
+       
+        //get collection data
+        const ownrecipecontainer = document.querySelector('.ownrecipe-container');
+        const recipeDetailsContent = document.querySelector('.recipe-details-content');
+        const recipeCloseBtn = document.querySelector('.recipe-close-btn');
+        const button = document.querySelector('.button');
+        onSnapshot(ref,(snapshot)=>{
+            
+            let template = '';
+            snapshot.docs.forEach(doc =>{
+                const recipe = doc.data();
+                
+                template += `
+                    <div class="card">
+                        <div class="cardimg">
+                        <img src="${recipe.image}"></div>
+                        <div>
+                        <div class="cardbir"><h2>${recipe.name}</h2>
+                        <h4>Malzemeler</h4>
+        <ul class="ingredientList">${recipe.ingredients}</ul></div><br>
+        <div class="cardiki">
+            <h4>Direktifler</h4>
+            <p class="recipeInstructions">${recipe.description}</p>
+        
+        </div></div>
+                     </div>
+                ` 
+        });
+            ownrecipecontainer.innerHTML += template;
+      
+        });
+        
+       
+                
+        
+
+    </script>
+    
+   
+
+
+    
+
+      
+   
+  
+</body>
+</html>

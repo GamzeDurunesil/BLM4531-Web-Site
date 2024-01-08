@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chef'Special'</title>
+
+    <link rel="stylesheet" href="css/site.css" />
+    <link rel="stylesheet" href="css/slider.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ms+Madi">
+    
+
+
+</head>
+
+<body >
+  
+    <header class="header">
+        
+        
+        
+            
+            
+                <a class="logo" href="Home.html">
+                    <img src="images/logo.jpg" alt="chef" width="100px" height="100px" >
+                </a>
+                
+                <a class="navbar-brand" href="Home.html">Chef'Special</a>
+                
+                <nav class="navbar">
+                    <a href="Home.html">Home</a>
+                    
+                </nav>
+                
+                <div class="container">
+                    <form action="" class="search-bar">
+                        <input type="text" class="searchBox" placeholder="Search"  id="inputName" autocomplete="off" name="q" />
+                       
+                        <button class="searchBtn" type="submit" id="searchbutton" style="font-size:24px;">
+
+                            <img src="images/search.png" ><img />
+                        </button>
+                     </form>
+                     
+                 
+                </div>
+                
+                
+                <button class="Loginbtnnav" onclick="login()">Login</button>
+                
+                
+                
+                
+                
+            
+        
+    </header>
+    <div class="slide-container">
+        <div class="slides">
+            
+            <img  src="images/img1.jpg" class="active">
+            <img  src="images/img2.jpg" >
+            <img  src="images/img3.jpg" >
+            <img  src="images/img4.jpg">
+            
+
+        </div>
+        <div class="buttons">
+            <span class="next">&#10095</span>
+            <span class="prev">&#10094</span>
+           
+        </div>
+        <div class="dotsContainer">
+            <div class="dot active" attr="0" onclick="switchImage(this)"></div>
+            <div class="dot" attr="1"onclick="switchImage(this)"></div>
+            <div class="dot" attr="2"onclick="switchImage(this)"></div>
+            <div class="dot" attr="3"onclick="switchImage(this)"></div>
+           
+        </div>
+    </div>
+    
+    
+    <main>
+        
+
+
+        
+        <section>
+
+            <div class="recipe-container">
+
+                <h2 style="font-size: 50px;">Search your favorite recipes <br><br> Sign-up For Add Recipes</h2>
+
+            </div>
+            <div class="recipe-details">
+                <button type="button" class="recipe-close-btn">
+                    <i class="material-icons">close</i>
+                </button>
+                <div class="recipe-details-content"></div>
+            </div>
+        </section>
+    </main>
+   
+    
+
+    <section class="footer"  style="background-color: #000000;" >
+        <div class="credit" style="color: #fff;">
+            -2023 - Chef'Special - Created By Gazme 
+        </div>
+    </section>
+   
+    <script>
+        
+        
+        let login=()=>{
+            window.location.assign("Login.html");
+        }
+        
+    
+    
+       </script>
+
+
+  
+    <script src="js/slideimages.js" asp-append-version></script>
+    <script src="js/searchapi.js" asp-append-version="true"></script>
+    <script src="js/site.js" asp-append-version="true"></script>
+   
+  
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Details</title>
+    <link rel="stylesheet" href="css/details.css" />
+ 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ms+Madi">
+    
+
+    
+</head>
+<body>
+    <header class="header">
+        
+        
+        
+            
+            
+    <a class="logo" href="Anasayfa.html">
+        <img src="images/logo.jpg" alt="chef" width="100px" height="100px" >
+    </a>
+    
+    <a class="navbar-brand" href="Anasayfa.html">Chef'Special</a>
+    
+    <nav class="navbar">
+        <a href="Anasayfa.html">Anasayfa</a>
+        
+    </nav>
+    <nav class="navbar">
+        <a href="favoriler.html">Favoriler</a>
+        
+    </nav>
+    <div class="container">
+        <form action="" class="search-bar">
+            <input type="text" class="searchBox" placeholder="Search"  id="inputName" autocomplete="off" name="q" />
+           
+            <button class="searchBtn" type="submit" id="searchbutton" style="font-size:24px;">
+
+                <img src="images/search.png" ><img />
+            </button>
+         </form>
+         
+     
+    </div>
+    <button class="addrecipe" id="addrecipe" onclick="tarifekle()">Tarif Ekle</button>&nbsp;&nbsp;
+    <button class="profilnav" id="profilnav" onclick="tarifler()">Tariflerim</button>&nbsp;&nbsp;
+    <button class="Loginbtnnav" id="signoutbutton">Logout</button>
+    
+    
+    
+    
+    
+
+
+</header>
+<main>
+    <div class="recipe-container">
+
+        
+
+    </div>
+    <div id="recipe-details-container">
+
+
+    </div>
+    <div class="recipe-details">
+        <button type="button" class="recipe-close-btn">
+            <i class="material-icons">close</i>
+        </button>
+        <div class="recipe-details-content"></div>
+    </div>
+    <script src="js/searchapi.js" asp-append-version="true"></script>
+    <script>
+        // Function to parse query parameters
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return Object.fromEntries(params.entries());
+        }
+
+        // Fetch and display recipe details
+        function fetchAndDisplayDetails() {
+            const queryParams = getQueryParams();
+            const mealName = queryParams.meal;
+
+            fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`)
+                .then(resp => resp.json())
+                .then(data => {
+                    const recipe = data.meals[0]; // Assuming there's only one result
+
+                    const recipeDetails = `
+                        <div class="recipe-detailss">
+                            <img src="${recipe.strMealThumb}"><br>
+                            <h2 >${recipe.strMeal}</h2><br>
+                            <h4>Malzemeler</h4><br>
+                            <ul >${fetchIngredient(recipe)}</ul><br>
+                            <h4>Direktifler</h4><br>
+                            <p>${recipe.strInstructions}</p>
+                        </div>
+                    `;
+
+                    document.getElementById('recipe-details-container').innerHTML = recipeDetails;
+                })
+                .catch(error => console.log(error));
+
+                
+        }
+
+        const fetchIngredient = (meal) => {
+            let ingredientsList = "";
+            for (let i = 1; i <= 20; i++) {
+                const ingredient = meal[`strIngredient${i}`];
+                if (ingredient) {
+                    const measure = meal[`strMeasure${i}`];
+                    ingredientsList = ingredientsList + `<li>${measure} ${ingredient}</li>`
+                }
+                else {
+                    break;
+                }
+            }
+            return ingredientsList;
+    
+
+        }
+
+        // Call the function when the page loads
+        window.onload = fetchAndDisplayDetails;
+    </script>
+    <script>
+        let SignoutBtn= document.getElementById('signoutbutton');
+        
+        let Signout=()=>{
+            window.location.assign("Home.html");
+        }
+        SignoutBtn.addEventListener('click',Signout);
+    
+    
+       </script>
+    
+    <script>
+        let addrecipeBtn= document.getElementById('addrecipe');
+        
+        let tarifekle=()=>{
+            window.location.assign("Addrecipe.html");
+        }
+        
+    
+    
+       </script>
+       <script>
+        let profilnavBtn= document.getElementById('profilnav');
+        
+        let tarifler=()=>{
+            window.location.assign("Recipes.html");
+        }
+        
+    
+    
+       </script>
+        
+      
+        
+</main>
+
+</body>
+</html>

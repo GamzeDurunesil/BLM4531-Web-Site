@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Miscellaneous Meals</title>
+
+    <link rel="stylesheet" href="css/site.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ms+Madi">
+    
+
+
+</head>
+
+<body >
+  
+    <header class="header">
+        
+        
+        
+            
+            
+                <a class="logo" href="Anasayfa.html">
+                    <img src="images/logo.jpg" alt="chef" width="100px" height="100px" >
+                </a>
+                
+                <a class="navbar-brand" href="Anasayfa.html">Chef'Special</a>
+                
+                <nav class="navbar">
+                    <a href="Anasayfa.html">Anasayfa</a>
+                    
+                </nav>
+                <nav class="navbar">
+                    <a href="favoriler.html">Favoriler</a>
+                    
+                </nav>
+                <div class="container">
+                    <form action="" class="search-bar">
+                        <input type="text" class="searchBox" placeholder="Search"  id="inputName" autocomplete="off" name="q" />
+                       
+                        <button class="searchBtn" type="submit" id="searchbutton" style="font-size:24px;">
+
+                            <img src="images/search.png" ><img />
+                        </button>
+                     </form>
+                     
+                 
+                </div>
+                <button class="addrecipe" id="addrecipe" onclick="tarifekle()">Tarif Ekle</button>&nbsp;&nbsp;
+                <button class="profilnav" id="profilnav" onclick="tarifler()">Tariflerim</button>&nbsp;&nbsp;
+                <button class="Loginbtnnav" id="signoutbutton">Logout</button>
+                
+                
+                
+                
+                
+            
+        
+    </header>
+    <main>
+        <section>
+            <div class="recipe-container">
+
+                
+
+            </div>
+            <div class="miscellaneous-container"> 
+                
+
+
+            </div>
+          
+            
+            <div class="recipe-details">
+                <button type="button" class="recipe-close-btn">
+                    <i class="material-icons">close</i>
+                </button>
+                <div class="recipe-details-content"></div>
+            </div>
+            
+        </section>
+    </main>
+    
+    
+
+
+   <script>
+    let SignoutBtn= document.getElementById('signoutbutton');
+    
+    let Signout=()=>{
+        window.location.assign("Home.html");
+    }
+    SignoutBtn.addEventListener('click',Signout);
+
+
+   </script>
+
+<script>
+    let addrecipeBtn= document.getElementById('addrecipe');
+    
+    let tarifekle=()=>{
+        window.location.assign("Addrecipe.html");
+    }
+    
+
+
+   </script>
+   <script>
+    let profilnavBtn= document.getElementById('profilnav');
+    
+    let tarifler=()=>{
+        window.location.assign("Recipes.html");
+    }
+    
+
+
+   </script>
+
+  
+    
+    
+    <script src="js/searchapi.js" asp-append-version="true"></script>
+    <script src="js/categoryinside.js" asp-append-version="true"></script>
+   
+   
+  
+</body>
+</html>
